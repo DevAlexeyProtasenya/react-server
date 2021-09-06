@@ -7,10 +7,12 @@ const addRoom = () => {
   do {
     id = uuidv4();
   } while (rooms.find(elem => elem.id === id))
+  console.log('before ' + rooms);
   const state = 'Waiting for players';
 
   const roomObj = { id, state }
   rooms.push(roomObj);
+  console.log('after ' + rooms);
   return { roomObj };
 }
 
