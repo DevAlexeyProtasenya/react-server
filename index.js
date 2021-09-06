@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
       typeError: "Data is already exist",
       message: errorUser,
     }));
-    const { room, errorRoom } = getRoom(id);
+    const { room, errorRoom } = getRoom(roomId);
     if (errorRoom) {
       deleteUser(user.id);
       console.log('Room does not exist')
