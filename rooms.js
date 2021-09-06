@@ -15,7 +15,8 @@ const addRoom = () => {
 }
 
 const getRoom = id => {
-    let roomObj = rooms.find(user => user.id == id)
+    let roomObj = rooms.find(room => room.id === id)
+    console.log(roomObj)
     if (!roomObj) return { error: "Room is not find!" }
     return { roomObj }
 }
