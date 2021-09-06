@@ -11,27 +11,27 @@ app.use(cors())
 io.on('connection', (socket) => {
   socket.on('login', ({ name, roomId }, callback) => {
     const { user, errorUser } = addUser(socket.id, name, roomId);
-    if (errorUser) return callback({
+    if (errorUser) return callback(JSON.stringify({
       status: 409,
       typeError: "Data is already exist",
       message: errorUser,
-    });
+    }));
     const { room, errorRoom } = getRoom(id);
     if (errorRoom) {
       deleteUser(user.id);
-      return callback({
+      return callback(JSON.stringify({
         status: 404,
         typeError: "Data not found",
         message: errorRoom,
-      });
+      }));
     }
     socket.join(user.room);
     socket.in(user.room).emit('notification', { title: 'Someone\'s here', description: `${user.name} just entered the room` });
     io.in(user.room).emit('users', getUsers(user.room));
-    callback({
+    callback(JSON.stringify({
       status: 200,
       room,
-    });
+    }));
   })
 
     socket.on('createRoom', ({ name }, callback) => {
@@ -39,19 +39,19 @@ io.on('connection', (socket) => {
       const { user, errorUser } = addUser(socket.id, name, room.id)
       if (errorUser) {
         deleteRoom(room.id);
-        return callback({
+        return callback(JSON.stringify({
           status: 409,
           typeError: "Data is already exist",
           message: errorUser,
-        })
+        }))
       }
       socket.join(user.room)
       socket.in(user.room).emit('notification', { title: 'Someone\'s here', description: `${user.name} just entered the room` })
       io.in(user.room).emit('users', getUsers(user.room))
-      callback({
+      callback(JSON.stringify({
         status: 200,
         room,
-      })
+      }))
     })
 
     socket.on('sendMessage', message => {
