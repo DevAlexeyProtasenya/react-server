@@ -12,11 +12,14 @@ io.on('connection', (socket) => {
   socket.on('login', ({ name, room }, callback) => {
     console.log(`Connecting user ${name} to room ${room} `)
     const { user, errorUser } = addUser(socket.id, name, room);
-    if (errorUser) return callback(JSON.stringify({
-      status: 409,
-      typeError: "Data is already exist",
-      message: errorUser,
-    }));
+    if (errorUser) {
+      console.log('User exist')
+      return callback(JSON.stringify({
+        status: 409,
+        typeError: "Data is already exist",
+        message: errorUser,
+      }));
+  }
     const { roomObj, errorRoom } = getRoom(room);
     if (errorRoom) {
       deleteUser(user.id);

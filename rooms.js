@@ -19,7 +19,7 @@ const addRoom = () => {
 const getRoom = id => {
     let roomObj = rooms.find(room => room.id === id)
     console.log(roomObj)
-    if (!roomObj) return { error: "Room is not find!" }
+    if (!roomObj) return { errorRoom: "Room is not found!" }
     return { roomObj }
 }
 
