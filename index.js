@@ -39,10 +39,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('createRoom', ({ name }, callback) => {
-    const room = addRoom();
-    const { user, errorUser } = addUser(socket.id, name, room.id)
+    const { roomObj } = addRoom();
+    const { user, errorUser } = addUser(socket.id, name, roomObj.id)
     if (errorUser) {
-      deleteRoom(room.id);
+      deleteRoom(roomObj.id);
       return callback(JSON.stringify({
         status: 409,
         typeError: "Data is already exist",
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
     io.in(user.room).emit('users', getUsers(user.room))
     callback(JSON.stringify({
       status: 200,
-      room,
+      roomObj,
     }))
   })
 
