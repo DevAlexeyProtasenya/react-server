@@ -9,15 +9,15 @@ const { addRoom, getRoom, deleteRoom } = require('./rooms')
 app.use(cors())
 
 io.on('connection', (socket) => {
-  socket.on('login', ({ name, roomId }, callback) => {
-    console.log('Connecting user')
-    const { user, errorUser } = addUser(socket.id, name, roomId);
+  socket.on('login', ({ name, room }, callback) => {
+    console.log(`Connecting user ${name} to room ${room} `)
+    const { user, errorUser } = addUser(socket.id, name, room);
     if (errorUser) return callback(JSON.stringify({
       status: 409,
       typeError: "Data is already exist",
       message: errorUser,
     }));
-    const { room, errorRoom } = getRoom(roomId);
+    const { roomObj, errorRoom } = getRoom(room);
     if (errorRoom) {
       deleteUser(user.id);
       console.log('Room does not exist')
@@ -27,13 +27,14 @@ io.on('connection', (socket) => {
         message: errorRoom,
       }));
     }
+    console.log(user);
     socket.join(user.room);
     socket.in(user.room).emit('notification', { title: 'Someone\'s here', description: `${user.name} just entered the room` });
     io.in(user.room).emit('users', getUsers(user.room));
     console.log('User was connected')
     callback(JSON.stringify({
       status: 200,
-      room,
+      roomObj,
     }));
   })
 

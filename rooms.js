@@ -9,15 +9,15 @@ const addRoom = () => {
   } while (rooms.find(elem => elem.id === id))
   const state = 'Waiting for players';
 
-  const room = { id, state }
-  rooms.push(room);
-  return room;
+  const roomObj = { id, state }
+  rooms.push(roomObj);
+  return { roomObj };
 }
 
 const getRoom = id => {
-    let room = rooms.find(user => user.id == id)
-    if (!room) return { error: "Room is not find!" }
-    return room
+    let roomObj = rooms.find(user => user.id == id)
+    if (!roomObj) return { error: "Room is not find!" }
+    return { roomObj }
 }
 
 const deleteRoom = (id) => {
