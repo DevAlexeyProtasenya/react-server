@@ -6,7 +6,7 @@ const addRoom = () => {
   let id;
   do {
     id = uuidv4();
-  } while (!rooms.find(elem => elem.id === id))
+  } while (rooms.find(elem => elem.id === id))
   const state = 'Waiting for players';
 
   const room = { id, state }
