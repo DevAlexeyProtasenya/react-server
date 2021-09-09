@@ -8,8 +8,7 @@ export const addRoom = () => {
   do {
     id = uuidv4();
   } while (rooms.find(elem => elem.getId() === id))
-  const initState = GameState.waitingForPlayer;
-
+  const initState = GameState.WAITING;
   const roomObj = new Room (id, initState)
   rooms.push(roomObj);
   return { roomObj };

@@ -12,18 +12,11 @@ const PORT = process.env.PORT || 5000
 
 app.use(cors())
 
-io.on('connection', (socket) => {
-
+io.on('connection', (socket: Socket) => {
+  
   socket.on('login', ({ name, surname, jobPosition, role, room }, callback) => {
     console.log(`Connecting user ${name} ${surname} to room ${room} `)
-    const { user, errorUser } = addUser(socket.id, name, surname, room, jobPosition, role);
-    if (errorUser) {
-      return callback(JSON.stringify({
-        status: 409,
-        typeError: "Data is already exist",
-        message: errorUser,
-      }));
-  }
+    const { user } = addUser(socket.id, name, surname, room, jobPosition, role);
     const { roomObj, errorRoom } = getRoom(room);
     if (errorRoom) {
       deleteUser(user.getId());
@@ -42,17 +35,16 @@ io.on('connection', (socket) => {
     }));
   })
 
-  socket.on('createRoom', ({ name, surname, jobPosition, role, }, callback) => {
+  socket.on('createRoom', ({ name, surname, userPosition, image, role }, callback) => {
     const { roomObj } = addRoom();
-    const { user, errorUser } = addUser(socket.id, name, surname, roomObj.getId(), jobPosition, role)
-    if (errorUser) {
-      deleteRoom(roomObj.getId());
+    const { user } = addUser(socket.id, name, role, roomObj.getId(), surname, image, userPosition);
+    if (!user.getId()) {
       return callback(JSON.stringify({
-        status: 409,
-        typeError: "Data is already exist",
-        message: errorUser,
-      }))
-    }
+        status: 500,
+        typeError: 'Bad request',
+        message: 'Check the request!',
+      }));
+    };
     socket.join(user.getRoom())
     socket.in(user.getRoom()).emit('notification', { title: 'Someone\'s here', description: `${user.getName()} just entered the room` })
     io.in(user.getRoom()).emit('users', getUsers(user.getRoom()))

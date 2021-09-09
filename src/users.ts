@@ -5,22 +5,15 @@ const users: User[] = []
 export const addUser = (
   id: string,
   name: string,
-  surname: string,
-  room: string,
-  jobPosition: string,
   role: Role,
+  room: string,
+  surname?: string,
+  image?: string,
+  jobPosition?: string,
 ) => {
-  const existingUser = users.find(currentUser => 
-    currentUser.getName().trim().toLowerCase() === name.trim().toLowerCase())
-
-  if (existingUser) return { errorUser: "Username has already been taken" }
-  if (!name && !room) return { errorUser: "Username and room are required" }
-  if (!name) return { errorUser: "Username is required" }
-  if (!room) return { errorUser: "Room is required" }
-
-  const user = new User (id, name, surname, jobPosition, role, room);
-  users.push(user)
-  return { user }
+  const user = new User (id, name, role, room, surname, jobPosition, image );
+  users.push(user);
+  return { user };
 }
 
 export const getUser = (id: string) => {

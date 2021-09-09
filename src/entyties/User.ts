@@ -1,18 +1,20 @@
 export class User {
   private id: string;
   private name: string;
-  private surname: string;
+  private surname?: string;
+  private jobPosition?: string;
+  private image?: string;
   private room: string;
-  private jobPosition: string;
   private role: Role;
 
-  constructor($id: string, $name: string, $surname: string, $jobPosition: string, $role: Role, $room: string) {
+  constructor($id: string, $name: string, $role: Role, $room: string, $surname?: string, $jobPosition?: string, $image?: string) {
     this.id = $id;
     this.name = $name;
     this.surname = $surname;
     this.role = $role;
     this.room = $room;
     this.jobPosition = $jobPosition;
+    this.image = $image;
   }
 
   public getId(): string {
@@ -61,6 +63,14 @@ export class User {
 
   public setRole(role: Role): void {
       this.role = role;
+  }
+
+  public getImage(): string {
+    return this.image;
+  }
+
+  public setImage(image: string): void {
+    this.image = image;
   }
 }
 

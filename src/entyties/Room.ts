@@ -26,6 +26,7 @@ export class Room {
 }
 
 export enum GameState {
-  waitingForPlayer = 'Waiting for players',
-  playing = 'Playing',
+  WAITING = 'WAITING',
+  PLAYING = 'PLAYING',
+  RESULT = 'RESULT'
 }
