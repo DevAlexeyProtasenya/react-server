@@ -14,9 +14,9 @@ app.use(cors())
 
 io.on('connection', (socket: Socket) => {
   
-  socket.on('login', ({ name, surname, jobPosition, role, room }, callback) => {
-    console.log(`Connecting user ${name} ${surname} to room ${room} `)
-    const { user } = addUser(socket.id, name, surname, room, jobPosition, role);
+  socket.on('login', ({ name, lastName, jobPosition, avatar, role, room }, callback) => {
+    console.log(`Connecting user ${name} ${lastName} to room ${room} `)
+    const { user } = addUser(socket.id, name, role, room, lastName, avatar, jobPosition);
     const { roomObj, errorRoom } = getRoom(room);
     if (errorRoom) {
       deleteUser(user.getId());
@@ -29,15 +29,16 @@ io.on('connection', (socket: Socket) => {
     socket.join(user.getRoom());
     socket.in(user.getRoom()).emit('notification', { title: 'Someone\'s here', description: `${user.getName()} just entered the room` });
     io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));
+    console.log(user);
     callback(JSON.stringify({
       roomObj,
       status: 200,
     }));
   })
 
-  socket.on('createRoom', ({ name, surname, userPosition, image, role }, callback) => {
+  socket.on('createRoom', ({ name, lastName, jobPosition, avatar, role }, callback) => {
     const { roomObj } = addRoom();
-    const { user } = addUser(socket.id, name, role, roomObj.getId(), surname, image, userPosition);
+    const { user } = addUser(socket.id, name, role, roomObj.getId(), lastName, avatar, jobPosition);
     if (!user.getId()) {
       return callback(JSON.stringify({
         status: 500,
@@ -47,7 +48,8 @@ io.on('connection', (socket: Socket) => {
     };
     socket.join(user.getRoom())
     socket.in(user.getRoom()).emit('notification', { title: 'Someone\'s here', description: `${user.getName()} just entered the room` })
-    io.in(user.getRoom()).emit('users', getUsers(user.getRoom()))
+    io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));
+    console.log(user);
     callback(JSON.stringify({
       roomObj,
       status: 200,
