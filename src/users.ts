@@ -1,9 +1,9 @@
 import { Role, User } from "./entyties/User"
+import { v4 as uuidv4 } from 'uuid';
 
 const users: User[] = []
 
 export const addUser = (
-  id: string,
   name: string,
   role: Role,
   room: string,
@@ -11,6 +11,10 @@ export const addUser = (
   image?: string,
   jobPosition?: string,
 ) => {
+  let id: string;
+  do {
+    id = uuidv4();
+  } while (users.find(elem => elem.getId() === id));
   const user = new User (id, name, role, room, surname, jobPosition, image );
   users.push(user);
   return { user };

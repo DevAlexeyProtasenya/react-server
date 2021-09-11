@@ -5,7 +5,7 @@ import { addUser, getUsers } from "../users";
 const createRoom = (socket: Socket, io: Server) => {
   socket.on('createRoom', ({ name, lastName, jobPosition, avatar, role }, callback) => {
   const { roomObj } = addRoom();
-  const { user } = addUser(socket.id, name, role, roomObj.getId(), lastName, avatar, jobPosition);
+  const { user } = addUser(name, role, roomObj.getId(), lastName, avatar, jobPosition);
   if (!user.getId()) {
     return callback(JSON.stringify({
       status: 500,
@@ -19,6 +19,7 @@ const createRoom = (socket: Socket, io: Server) => {
   console.log(user);
   callback(JSON.stringify({
     roomObj,
+    userID: user.getId(),
     status: 200,
   }));
 })};
