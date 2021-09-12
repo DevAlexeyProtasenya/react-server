@@ -5,7 +5,7 @@ import { addUser, getUsers } from "../users";
 const createRoom = (socket: Socket, io: Server) => {
   socket.on('createRoom', ({ name, lastName, jobPosition, avatar, role }, callback) => {
   const { roomObj } = addRoom();
-  const { user } = addUser(name, role, roomObj.getId(), lastName, avatar, jobPosition);
+  const { user } = addUser(name, role, roomObj.getRoomID(), lastName, avatar, jobPosition);
   if (!user.getId()) {
     return callback(JSON.stringify({
       status: 500,
