@@ -9,7 +9,6 @@ const createRoom = (socket: Socket, io: Server) => {
   if (!user.getId()) {
     return callback(JSON.stringify({
       status: 500,
-      typeError: 'Bad request',
       message: 'Check the request!',
     }));
   };

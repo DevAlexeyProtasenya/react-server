@@ -11,7 +11,6 @@ const login = (socket: Socket, io: Server) => {
       deleteUser(user.getId());
       return callback(JSON.stringify({
         status: 404,
-        typeError: "Data not found",
         message: errorRoom,
       }));
     }

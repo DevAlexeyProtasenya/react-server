@@ -7,7 +7,6 @@ const checkRoom = (socket: Socket, io: Server) => {
     if (errorRoom) {
       return callback(JSON.stringify({
         status: 404,
-        typeError: "Data not found",
         message: errorRoom,
       }));
     }
