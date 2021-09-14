@@ -10,7 +10,7 @@ const updateRoom = (socket: Socket, io: Server) => {
         message: 'Room not found!',
       }));
     }
-    io.in(newRoom.getRoomID()).emit('room', newRoom);
+    io.in(newRoom.getRoomID()).emit('updatedRoom', newRoom);
     return callback(JSON.stringify({
       status: 200,
     }));
