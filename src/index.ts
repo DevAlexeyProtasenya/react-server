@@ -9,6 +9,7 @@ import sendMessage from './endpoints/sendMessage';
 import disconnect from './endpoints/disconnect';
 import checkRoom from './endpoints/checkRoom';
 import deleteUserFromRoom from './endpoints/deleteUserFromRoom';
+import removeRoom from './endpoints/removeRoom';
 
 const app = express();
 const httpServer = createServer(app);
@@ -24,6 +25,7 @@ io.on('connection', (socket: Socket) => {
   deleteUserFromRoom(socket, io);
   sendMessage(socket, io);
   disconnect(socket, io);
+  removeRoom(socket, io);
 })
 
 app.get('/', (req, res) => {

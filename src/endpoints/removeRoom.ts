@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import { deleteRoom } from "../rooms";
 import { deleteUser, getUsers } from "../users";
 
-const deleteUserFromRoom = (socket: Socket, io: Server) => {
+const removeRoom = (socket: Socket, io: Server) => {
   socket.on("deleteRoom", ({roomID}, callback) => {
     io.in(roomID).emit('cancelGame');
     const users = getUsers(roomID);
@@ -22,4 +22,4 @@ const deleteUserFromRoom = (socket: Socket, io: Server) => {
   });
 }
 
-export default deleteUserFromRoom;
+export default removeRoom;
