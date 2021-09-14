@@ -7,16 +7,15 @@ const deleteUserFromRoom = (socket: Socket, io: Server) => {
     const user = deleteUser(userID);
     if (user) {
       io.in(user.getRoom()).emit('users', getUsers(user.getRoom()))
-    } else {
       return callback(JSON.stringify({
-        status: 404,
-        message: "User not found",
+        status: 200,
       }));
     }
     return callback(JSON.stringify({
-      status: 200,
-    }))
-  })
+      status: 404,
+      message: "User not found",
+    }));
+  });
 }
 
 export default deleteUserFromRoom;
