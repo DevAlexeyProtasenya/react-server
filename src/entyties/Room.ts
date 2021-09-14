@@ -1,52 +1,63 @@
+import { Issue } from "./Issue";
+import { User } from "./User";
+
 export class Room {
   private roomID: string;
   private state: string;
-  private name?: string;
-  private issues?: Issue[];
-  private gameSettings?: GameSettings;
+  private name: string;
+  private issues: Issue[];
+  private gameSettings: GameSettings;
+  private members: User[];
 
-    public getRoomID(): string {
-        return this.roomID;
-    }
+  public getMembers(): User[] {
+    return this.members;
+  }
 
-    public setRoomID(roomID: string): void {
-        this.roomID = roomID;
-    }
+  public setMembers(members: User[]): void {
+    this.members = members;
+  }
 
-    public getState(): string {
-        return this.state;
-    }
+  public getRoomID(): string {
+    return this.roomID;
+  }
 
-    public setState(state: string): void {
-        this.state = state;
-    }
+  public setRoomID(roomID: string): void {
+    this.roomID = roomID;
+  }
 
-    public getName(): string {
-        return this.name;
-    }
+  public getState(): string {
+    return this.state;
+  }
 
-    public setName(name: string): void {
-        this.name = name;
-    }
+  public setState(state: string): void {
+    this.state = state;
+  }
 
-    public getIssues(): Issue[] {
-        return this.issues;
-    }
+  public getName(): string {
+    return this.name;
+  }
 
-    public setIssues(issues: Issue[]): void {
-        this.issues = issues;
-    }
+  public setName(name: string): void {
+    this.name = name;
+  }
 
-    public getGameSettings?(): GameSettings {
-        return this.gameSettings;
-    }
+  public getIssues(): Issue[] {
+    return this.issues;
+  }
 
-    public setGameSettings(gameSettings: GameSettings): void {
-        this.gameSettings = gameSettings;
-    }
+  public setIssues(issues: Issue[]): void {
+    this.issues = issues;
+  }
 
+  public getGameSettings?(): GameSettings {
+    return this.gameSettings;
+  }
 
-  constructor($roomID: string, $state: string, $name?: string, $issues?: Issue[], $gameSettings?: GameSettings) {
+  public setGameSettings(gameSettings: GameSettings): void {
+    this.gameSettings = gameSettings;
+  }
+
+  constructor($roomID: string, $state: string, $name: string, $issues: Issue[], $gameSettings: GameSettings) {
     this.roomID = $roomID;
     this.state = $state;
     this.name = $name;
@@ -58,13 +69,8 @@ export class Room {
 export enum GameState {
   WAITING = 'WAITING',
   PLAYING = 'PLAYING',
-  RESULT = 'RESULT'
-}
-
-export interface Issue {
-  id: string
-  priority: string
-  name: string
+  RESULT = 'RESULT',
+  
 }
 
 export type GameSettings = {
@@ -78,4 +84,19 @@ export type GameSettings = {
   isTimer: boolean;
   timeMin: string;
   timeSec: string;
+};
+
+export const fibonacci = ['0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'];
+
+export const initialSettings: GameSettings = {
+  isMasterAsPlayer: true,
+  cardValues: fibonacci,
+  scopeTipeShort: '',
+  cardCover: '5',
+  isAutoNewPlayer: true,
+  isAutoCardFlipping: true,
+  isChangingCard: false,
+  isTimer: false,
+  timeMin: '2',
+  timeSec: '00',
 };
