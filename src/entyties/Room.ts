@@ -1,4 +1,5 @@
 import { Issue } from "./Issue";
+import { Timer } from "./Timer";
 import { User } from "./User";
 
 export class Room {
@@ -8,6 +9,15 @@ export class Room {
   private issues: Issue[];
   private gameSettings: GameSettings;
   private members: User[];
+  private timer?: Timer;
+
+  public getTimer(): Timer {
+    return this.timer;
+  }
+
+  public setTimer(timer: Timer): void {
+    this.timer = timer;
+  }
 
   public getMembers(): User[] {
     return this.members;
@@ -70,7 +80,6 @@ export enum GameState {
   WAITING = 'WAITING',
   PLAYING = 'PLAYING',
   RESULT = 'RESULT',
-  
 }
 
 export type GameSettings = {
