@@ -9,9 +9,9 @@ const startTimer = (socket: Socket, io: Server) => {
       const seconds = parseInt(roomObj.getGameSettings().timeSec, 10);
       const minute = parseInt(roomObj.getGameSettings().timeMin, 10);
       const timer = new Timer (minute, seconds);
-      io.in(roomID).emit('startTimer');
+      io.in(roomID).emit('startTimer', timer);
       return callback(JSON.stringify({
-        message: timer.getTime(),
+        timer,
         status: 200,
       }));
     }
