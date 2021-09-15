@@ -2,7 +2,6 @@ import express from 'express';
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import cors from 'cors';
-import { addUser, deleteUser, getUsers, getUser } from './users';
 import login from './endpoints/login';
 import createRoom from './endpoints/createRoom';
 import sendMessage from './endpoints/sendMessage';
@@ -11,6 +10,7 @@ import checkRoom from './endpoints/checkRoom';
 import deleteUserFromRoom from './endpoints/deleteUserFromRoom';
 import removeRoom from './endpoints/removeRoom';
 import updateRoom from './endpoints/updateRoom';
+import startTimer from './endpoints/startTimer';
 
 const app = express();
 const httpServer = createServer(app);
@@ -28,6 +28,7 @@ io.on('connection', (socket: Socket) => {
   disconnect(socket, io);
   removeRoom(socket, io);
   updateRoom(socket, io);
+  startTimer(socket, io);
 })
 
 app.get('/', (req, res) => {
