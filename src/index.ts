@@ -11,6 +11,9 @@ import deleteUserFromRoom from './endpoints/deleteUserFromRoom';
 import removeRoom from './endpoints/removeRoom';
 import updateRoom from './endpoints/updateRoom';
 import startTimer from './endpoints/startTimer';
+import getRoomEP from './endpoints/getRoomEP';
+import getUserEP from './endpoints/getUserEP';
+import getUsersEP from './endpoints/getUsersEP';
 
 const app = express();
 const httpServer = createServer(app);
@@ -29,6 +32,9 @@ io.on('connection', (socket: Socket) => {
   removeRoom(socket, io);
   updateRoom(socket, io);
   startTimer(socket, io);
+  getRoomEP(socket);
+  getUserEP(socket);
+  getUsersEP(socket);
 })
 
 app.get('/', (req, res) => {

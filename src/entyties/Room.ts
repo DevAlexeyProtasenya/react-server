@@ -9,7 +9,7 @@ export class Room {
   private issues: Issue[];
   private gameSettings: GameSettings;
   private members: User[];
-  private timer?: Timer;
+  private timer: Timer;
 
   public getTimer(): Timer {
     return this.timer;
