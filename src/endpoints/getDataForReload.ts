@@ -10,6 +10,7 @@ const getDataForReload = (socket: Socket) => {
       const { user } = getUser(userID);
       const members = getUsers(roomID);
       const dealer = members.find(member => member.getRole() === Role.diler);
+      console.log(dealer);
       return callback(JSON.stringify({
         roomObj,
         dealer,
