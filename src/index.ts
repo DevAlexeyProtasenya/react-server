@@ -11,7 +11,7 @@ import deleteUserFromRoom from './endpoints/deleteUserFromRoom';
 import removeRoom from './endpoints/removeRoom';
 import updateRoom from './endpoints/updateRoom';
 import startTimer from './endpoints/startTimer';
-import getRoomEP from './endpoints/getRoomEP';
+import getDataForReload from './endpoints/getDataForReload';
 import getUserEP from './endpoints/getUserEP';
 import getUsersEP from './endpoints/getUsersEP';
 
@@ -32,7 +32,7 @@ io.on('connection', (socket: Socket) => {
   removeRoom(socket, io);
   updateRoom(socket, io);
   startTimer(socket, io);
-  getRoomEP(socket);
+  getDataForReload(socket);
   getUserEP(socket);
   getUsersEP(socket);
 })
