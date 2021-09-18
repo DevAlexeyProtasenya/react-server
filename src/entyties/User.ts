@@ -75,7 +75,7 @@ export class User {
 }
 
 export enum Role {
-  diler = 'diler',
+  dealer = 'dealer',
   observer = 'observer',
   player = 'player',
 }
