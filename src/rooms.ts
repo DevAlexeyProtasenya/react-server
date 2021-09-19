@@ -32,6 +32,7 @@ export const changeRoom = (room:{
   members: User[];
 }) => {
   const newRoom = new Room(room.roomID, room.state, room.name, room.issues, room.gameSettings);
+  newRoom.setMembers(room.members);
   const index = rooms.findIndex((currentRoom) => currentRoom.getRoomID() === newRoom.getRoomID());
   if (index !== -1) {
     rooms[index] = newRoom;
