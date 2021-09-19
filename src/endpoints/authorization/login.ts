@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { getRoom } from "../rooms";
-import { addUser, deleteUser, getUsers } from "../users";
+import { getRoom } from "../../rooms";
+import { addUser, deleteUser, getUsers } from "../../users";
 
 const login = (socket: Socket, io: Server) => {
   socket.on('login', ({ name, lastName, jobPosition, avatar, role, room }, callback) => {

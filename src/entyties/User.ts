@@ -22,23 +22,23 @@ export class User {
   }
 
   public setId(id: string): void {
-      this.id = id;
+    this.id = id;
   }
 
   public getName(): string {
-      return this.name;
+    return this.name;
   }
 
   public setName(name: string): void {
-      this.name = name;
+    this.name = name;
   }
 
   public getSurname(): string {
-      return this.surname;
+    return this.surname;
   }
 
   public setSurname(surname: string): void {
-      this.surname = surname;
+    this.surname = surname;
   }
 
   public getRoom(): string {
@@ -50,19 +50,19 @@ export class User {
   }
 
   public getJobPosition(): string {
-      return this.jobPosition;
+    return this.jobPosition;
   }
 
   public setJobPosition(jobPosition: string): void {
-      this.jobPosition = jobPosition;
+    this.jobPosition = jobPosition;
   }
 
   public getRole(): Role {
-      return this.role;
+    return this.role;
   }
 
   public setRole(role: Role): void {
-      this.role = role;
+    this.role = role;
   }
 
   public getImage(): string {

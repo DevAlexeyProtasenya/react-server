@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { addRoom } from "../rooms";
-import { addUser, getUsers } from "../users";
+import { addRoom } from "../../rooms";
+import { addUser, getUsers } from "../../users";
 
 const createRoom = (socket: Socket, io: Server) => {
   socket.on('createRoom', ({ name, lastName, jobPosition, avatar, role }, callback) => {

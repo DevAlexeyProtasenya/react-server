@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
-import { getUser, getUsers } from "../users";
-import { getRoom } from "../rooms";
-import { Role } from "../entyties/User";
+import { getUser, getUsers } from "../../users";
+import { getRoom } from "../../rooms";
+import { Role } from "../../entyties/User";
 
 const getDataForReload = (socket: Socket) => {
   socket.on('getDataForReload', ({ roomID, userID }, callback) => {

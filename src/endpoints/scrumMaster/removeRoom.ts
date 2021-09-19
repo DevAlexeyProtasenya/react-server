@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { deleteRoom } from "../rooms";
-import { deleteUser, getUsers } from "../users";
+import { deleteRoom } from "../../rooms";
+import { deleteUser, getUsers } from "../../users";
 
 const removeRoom = (socket: Socket, io: Server) => {
   socket.on("deleteRoom", ({roomID}, callback) => {

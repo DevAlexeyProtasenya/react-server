@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { getUsers } from "../users";
+import { getUsers } from "../../users";
 
 const getUsersEP = (socket: Socket) => {
   socket.on('getUsers', ({ roomID }, callback) => {

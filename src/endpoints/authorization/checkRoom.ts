@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { getRoom } from "../rooms";
+import { getRoom } from "../../rooms";
 
 const checkRoom = (socket: Socket, io: Server) => {
   socket.on('checkRoom', ({ roomID }, callback) => {

@@ -1,6 +1,7 @@
 import { Issue } from "./Issue";
+import { MemberVote } from "./MemberVote";
 import { Timer } from "./Timer";
-import { User } from "./User";
+import { Role, User } from "./User";
 
 export class Room {
   private roomID: string;
@@ -10,6 +11,15 @@ export class Room {
   private gameSettings: GameSettings;
   private members: User[];
   private timer: Timer;
+  private memberVote: MemberVote;
+
+  public getMemberVote(): MemberVote {
+    return this.memberVote;
+  }
+
+  public setMemberVote(memberVote: MemberVote): void {
+    this.memberVote = memberVote;
+  }
 
   public getTimer(): Timer {
     return this.timer;
@@ -65,6 +75,39 @@ export class Room {
 
   public setGameSettings(gameSettings: GameSettings): void {
     this.gameSettings = gameSettings;
+  }
+
+  public getPlayers(): User[] {
+    const {isMasterAsPlayer} = this.getGameSettings();
+    const players = this.getMembers().filter(member => member.getRole() === Role.player);
+    if(isMasterAsPlayer){
+      players.push(this.getDealer());
+    }
+    return this.getMembers().filter(member => member.getRole() === Role.player);
+  }
+
+  public getDealer(): User {
+    return this.getMembers().find(member => member.getRole() === Role.dealer);
+  }
+
+  public makeStat(): void {
+    const statistic: { value: string; amount: number }[] = [];
+    this.memberVote.memberVoteResult.forEach(memberVote => {
+      const card = statistic.find(value => value.value === memberVote.value);
+      if(card){
+        card.amount += 1;
+      } else {
+        statistic.push({amount: 1, value: memberVote.value});
+      }
+    });
+    let voteAmount = 0;
+    statistic.forEach(card => voteAmount += card.amount);
+    this.issues[this.memberVote.currentIssue].statistic = statistic.map(elem => {
+      return {
+        value: elem.value, 
+        percentage: (voteAmount/elem.amount).toString()
+      }
+    })
   }
 
   constructor($roomID: string, $state: string, $name: string, $issues: Issue[], $gameSettings: GameSettings) {
