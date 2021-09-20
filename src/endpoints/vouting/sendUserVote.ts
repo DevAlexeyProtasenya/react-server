@@ -1,5 +1,4 @@
 import { Server, Socket } from "socket.io";
-import { Role } from "../../entyties/User";
 import { getRoom } from "../../rooms";
 import { getUser } from "../../users";
 
@@ -15,7 +14,12 @@ const sendUserVote = (socket: Socket, io: Server) => {
     const {roomObj, errorRoom} = getRoom(user.getRoom());
     if(roomObj) {
       const results = roomObj.getMemberVote().memberVoteResult;
-      results.push({value, userId: userID});
+      const userResult = results.find(result => result.userId === userID);
+      if(userResult){
+        userResult.value = value
+      } else {
+        results.push({value, userId: userID});
+      }
     } else {
       return callback(JSON.stringify({
         status: 404,

@@ -104,7 +104,7 @@ export class Room {
     statistic.forEach(card => voteAmount += card.amount);
     this.issues[this.memberVote.currentIssue].statistic = statistic.map(elem => {
       return {
-        value: elem.value, 
+        value: elem.value,
         percentage: (voteAmount/elem.amount).toString()
       }
     })
