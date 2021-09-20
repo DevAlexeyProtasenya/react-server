@@ -5,6 +5,7 @@ import { getUser } from "../../users";
 const sendUserVote = (socket: Socket, io: Server) => {
   socket.on('sendUserVote', ({userID, value}, callback) => {
     const {user} = getUser(userID);
+    console.log(userID);
     if(!user) {
       return callback(JSON.stringify({
         status: 404,
