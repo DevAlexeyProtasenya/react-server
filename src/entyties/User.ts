@@ -57,7 +57,7 @@ export class User {
     this.jobPosition = jobPosition;
   }
 
-  public getRole(): Role {
+  public getRole1(): string {
     return this.role;
   }
 

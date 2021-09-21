@@ -83,27 +83,45 @@ export class Room {
     state: GameState;
     issues: Issue[];
     gameSettings: GameSettings;
-    members: User[];
+    members: {
+      id: string;
+      name: string;
+      surname?: string;
+      jobPosition?: string;
+      image?: string;
+      room: string;
+      role: Role;
+    }[];
   }): void {
     this.roomID = room.roomID;
     this.state = room.state;
     this.name = room.name;
     this.issues = room.issues;
     this.gameSettings = room.gameSettings;
-    this.members = room.members;
+    this.members = room.members.map(member => new User(
+      member.id,
+      member.name,
+      member.role,
+      member.room,
+      member.surname,
+      member.jobPosition,
+      member.image
+    ));
   }
 
   public getPlayers(): User[] {
     const {isMasterAsPlayer} = this.getGameSettings();
-    const players = this.getMembers().filter(member => member.getRole() === Role.player);
+    const members = this.getMembers();
+    console.log(members);
+    const players = members.filter((member) => member.getRole1() === Role.player);
     if(isMasterAsPlayer){
       players.push(this.getDealer());
     }
-    return this.getMembers().filter(member => member.getRole() === Role.player);
+    return players;
   }
 
   public getDealer(): User {
-    return this.getMembers().find(member => member.getRole() === Role.dealer);
+    return this.getMembers().find(member => member.getRole1() === Role.dealer);
   }
 
   public makeStat(): void {
@@ -122,7 +140,7 @@ export class Room {
     this.issues[this.memberVote.currentIssue].statistic = statistic.map(elem => {
       return {
         value: elem.value,
-        percentage: (voteAmount/elem.amount).toString()
+        percentage: (elem.amount/voteAmount*100).toString()
       }
     })
   }

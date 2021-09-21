@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Issue } from './entyties/Issue';
 import { GameSettings, GameState, initialSettings, Room } from './entyties/Room';
-import { User } from './entyties/User';
+import { Role } from './entyties/User';
 
 const rooms: Room[] = [];
 
@@ -29,7 +29,15 @@ export const changeRoom = (room:{
   state: GameState;
   issues: Issue[];
   gameSettings: GameSettings;
-  members: User[];
+  members: {
+    id: string;
+    name: string;
+    surname?: string;
+    jobPosition?: string;
+    image?: string;
+    room: string;
+    role: Role;
+  }[];
 }) => {
   const {roomObj} = getRoom(room.roomID);
   if(roomObj){

@@ -16,7 +16,7 @@ const updateMemberVote = (socket: Socket, io: Server) => {
       status: 404,
       message: errorRoom,
     }));
-  })
+  });
 }
 
 export default updateMemberVote;

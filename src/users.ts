@@ -15,7 +15,8 @@ export const addUser = (
   do {
     id = uuidv4();
   } while (users.find(elem => elem.getId() === id));
-  const user = new User (id, name, role, room, surname, jobPosition, image );
+  const user = new User (id, name, role, room, surname, jobPosition, image);
+  console.log(user.getRole1());
   users.push(user);
   return { user };
 }
