@@ -31,13 +31,11 @@ export const changeRoom = (room:{
   gameSettings: GameSettings;
   members: User[];
 }) => {
-  const newRoom = new Room(room.roomID, room.state, room.name, room.issues, room.gameSettings);
-  newRoom.setMembers(room.members);
-  const index = rooms.findIndex((currentRoom) => currentRoom.getRoomID() === newRoom.getRoomID());
-  if (index !== -1) {
-    rooms[index] = newRoom;
-    return { newRoom };
-  };
+  const {roomObj} = getRoom(room.roomID);
+  if(roomObj){
+    roomObj.setRoomData(room);
+    return {roomObj}
+  }
   return { errorRoom: "Room is not found!" };
 }
 

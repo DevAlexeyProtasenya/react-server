@@ -1,5 +1,5 @@
 import { Issue } from "./Issue";
-import { MemberVote } from "./MemberVote";
+import { MemberVote, MemberVoteStatus } from "./MemberVote";
 import { Timer } from "./Timer";
 import { Role, User } from "./User";
 
@@ -77,6 +77,22 @@ export class Room {
     this.gameSettings = gameSettings;
   }
 
+  public setRoomData(room: {
+    roomID: string;
+    name: string;
+    state: GameState;
+    issues: Issue[];
+    gameSettings: GameSettings;
+    members: User[];
+  }): void {
+    this.roomID = room.roomID;
+    this.state = room.state;
+    this.name = room.name;
+    this.issues = room.issues;
+    this.gameSettings = room.gameSettings;
+    this.members = room.members;
+  }
+
   public getPlayers(): User[] {
     const {isMasterAsPlayer} = this.getGameSettings();
     const players = this.getMembers().filter(member => member.getRole() === Role.player);
@@ -101,6 +117,7 @@ export class Room {
       }
     });
     let voteAmount = 0;
+    this.memberVote.status = MemberVoteStatus.FINISHED;
     statistic.forEach(card => voteAmount += card.amount);
     this.issues[this.memberVote.currentIssue].statistic = statistic.map(elem => {
       return {
