@@ -12,7 +12,9 @@ const updateRoom = (socket: Socket, io: Server) => {
         message: 'Room not found!',
       }));
     }
+    console.log('first');
     if(roomObj.getState() === GameState.PLAYING && !roomObj.getMemberVote){
+      console.log('second');
       const memberVote = {
         currentIssue: 0,
         status: MemberVoteStatus.BEFORE_START,
