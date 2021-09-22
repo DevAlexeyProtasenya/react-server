@@ -16,6 +16,7 @@ import getUserEP from './endpoints/getingData/getUserEP';
 import getUsersEP from './endpoints/getingData/getUsersEP';
 import sendUserVote from './endpoints/vouting/sendUserVote';
 import saveStat from './endpoints/vouting/saveStat';
+import startRound from './endpoints/vouting/startRound';
 
 const app = express();
 const httpServer = createServer(app);
@@ -39,6 +40,7 @@ io.on('connection', (socket: Socket) => {
   getUsersEP(socket);
   sendUserVote(socket, io);
   saveStat(socket, io);
+  startRound(socket, io);
 })
 
 app.get('/', (req, res) => {
