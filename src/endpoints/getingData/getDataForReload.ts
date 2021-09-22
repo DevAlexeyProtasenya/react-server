@@ -8,16 +8,19 @@ const getDataForReload = (socket: Socket) => {
     const { roomObj } = getRoom(roomID);
     if(roomObj) {
       const { user } = getUser(userID);
-      const members = getUsers(roomID);
-      const dealer = members.find(member => member.getRole1() === Role.dealer);
-      console.log(members);
-      return callback(JSON.stringify({
-        roomObj,
-        dealer,
-        user,
-        users: members,
-        status: 200,
-      }));
+      if(user){
+        const members = getUsers(roomID);
+        const dealer = members.find(member => member.getRole1() === Role.dealer);
+        console.log(members);
+        socket.join(user.getRoom());
+        return callback(JSON.stringify({
+          roomObj,
+          dealer,
+          user,
+          users: members,
+          status: 200,
+        }));
+      }
     }
     return callback(JSON.stringify({
       message: 'Room not found!',
