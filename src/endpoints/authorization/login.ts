@@ -4,7 +4,7 @@ import { addUser, deleteUser, getUsers } from "../../users";
 
 const login = (socket: Socket, io: Server) => {
   socket.on('login', ({ name, lastName, jobPosition, avatar, role, room }, callback) => {
-    console.log(`Connecting user ${name} ${lastName} to room ${room} `)
+    console.log(`Connecting user ${name} ${lastName} to room ${room} `);
     const { user } = addUser(name, role, room, lastName, avatar, jobPosition);
     const { roomObj, errorRoom } = getRoom(room);
     if (errorRoom) {
