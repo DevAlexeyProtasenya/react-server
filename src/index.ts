@@ -9,7 +9,7 @@ import disconnect from './endpoints/authorization/disconnect';
 import checkRoom from './endpoints/authorization/checkRoom';
 import deleteUserFromRoom from './endpoints/scrumMaster/deleteUserFromRoom';
 import removeRoom from './endpoints/scrumMaster/removeRoom';
-import updateRoom from './endpoints/updateRoom';
+import updateRoom from './endpoints/updateRoom/updateRoom';
 import startTimer from './endpoints/startTimer';
 import getDataForReload from './endpoints/getingData/getDataForReload';
 import getUserEP from './endpoints/getingData/getUserEP';
@@ -17,6 +17,7 @@ import getUsersEP from './endpoints/getingData/getUsersEP';
 import sendUserVote from './endpoints/vouting/sendUserVote';
 import saveStat from './endpoints/vouting/saveStat';
 import startRound from './endpoints/vouting/startRound';
+import updateSettings from './endpoints/updateRoom/updateSettings';
 
 const app = express();
 const httpServer = createServer(app);
@@ -41,6 +42,7 @@ io.on('connection', (socket: Socket) => {
   sendUserVote(socket, io);
   saveStat(socket, io);
   startRound(socket, io);
+  updateSettings(socket, io);
 })
 
 app.get('/', (req, res) => {

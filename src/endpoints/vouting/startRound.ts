@@ -10,6 +10,9 @@ const startRound = (socket: Socket, io: Server) => {
       roomObj.getMemberVote().memberVoteResult = [];
       roomObj.getMemberVote().status = MemberVoteStatus.IN_PROGRESS;
       io.in(roomID).emit('getVoteResults', roomObj);
+      if(roomObj.getMemberVote().timer){
+        roomObj.getMemberVote().timer.startTimer();
+      }
       return callback(JSON.stringify({
         status: 200,
       }));

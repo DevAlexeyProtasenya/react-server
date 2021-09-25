@@ -12,6 +12,12 @@ const saveStat = (socket: Socket, io: Server) => {
     }
     roomObj.makeStat();
     io.in(roomID).emit('getVoteResults', roomObj);
+    const {isTimer, timeMin, timeSec} = roomObj.getGameSettings();
+    if(isTimer){
+      roomObj.getMemberVote().timer.stopTimer();
+      roomObj.getMemberVote().timer.setMinutes(parseInt(timeMin, 10));
+      roomObj.getMemberVote().timer.setSeconds(parseInt(timeSec, 10));
+    }
     callback(JSON.stringify({
       status: 200,
     }))

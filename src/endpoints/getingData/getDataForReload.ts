@@ -11,12 +11,13 @@ const getDataForReload = (socket: Socket) => {
       if(user){
         const members = getUsers(roomID);
         const dealer = members.find(member => member.getRole1() === Role.dealer);
-        console.log(members);
+        const memberVote = roomObj.getMemberVote();
         socket.join(user.getRoom());
         return callback(JSON.stringify({
           roomObj,
           dealer,
           user,
+          memberVote,
           users: members,
           status: 200,
         }));

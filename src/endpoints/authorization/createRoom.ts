@@ -12,10 +12,10 @@ const createRoom = (socket: Socket, io: Server) => {
       message: 'Check the request!',
     }));
   };
+  roomObj.setMembers([user]);
   socket.join(user.getRoom())
   socket.in(user.getRoom()).emit('notification', { title: 'Someone\'s here', description: `${user.getName()} just entered the room` })
   io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));
-  console.log(user);
   callback(JSON.stringify({
     roomObj,
     userID: user.getId(),

@@ -1,7 +1,8 @@
 import { Server, Socket } from "socket.io";
-import { MemberVote, MemberVoteStatus } from "../entyties/MemberVote";
-import { GameState } from "../entyties/Room";
-import { changeRoom } from "../rooms";
+import { Timer } from "../../entyties/Timer";
+import { MemberVote, MemberVoteStatus } from "../../entyties/MemberVote";
+import { GameState } from "../../entyties/Room";
+import { changeRoom } from "../../rooms";
 
 const updateRoom = (socket: Socket, io: Server) => {
   socket.on('updateRoom', ({ room }, callback) => {
@@ -12,14 +13,17 @@ const updateRoom = (socket: Socket, io: Server) => {
         message: 'Room not found!',
       }));
     }
-    console.log(roomObj.getMemberVote());
     if(roomObj.getState() === GameState.PLAYING && !roomObj.getMemberVote()){
-      console.log('second');
       const memberVote = {
         currentIssue: 0,
         status: MemberVoteStatus.BEFORE_START,
         memberVoteResult: [],
       } as MemberVote;
+      if(roomObj.getGameSettings().isTimer){
+        const minutes = parseInt(roomObj.getGameSettings().timeMin, 10);
+        const seconds = parseInt(roomObj.getGameSettings().timeSec, 10);
+        memberVote.timer = new Timer(minutes, seconds);
+      }
       roomObj.setMemberVote(memberVote);
     }
     io.in(roomObj.getRoomID()).emit('updatedRoom', roomObj);

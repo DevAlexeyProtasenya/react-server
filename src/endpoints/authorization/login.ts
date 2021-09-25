@@ -14,11 +14,13 @@ const login = (socket: Socket, io: Server) => {
         message: errorRoom,
       }));
     }
+    roomObj.getMembers().push(user);
     socket.join(user.getRoom());
     io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));
     console.log(user);
     callback(JSON.stringify({
       roomObj,
+      memberVote: roomObj.getMemberVote(),
       userID: user.getId(),
       status: 200,
     }));
