@@ -19,12 +19,12 @@ const updateRoom = (socket: Socket, io: Server) => {
         status: MemberVoteStatus.BEFORE_START,
         memberVoteResult: [],
       } as MemberVote;
+      roomObj.setMemberVote(memberVote);
       if(roomObj.getGameSettings().isTimer){
         const minutes = parseInt(roomObj.getGameSettings().timeMin, 10);
         const seconds = parseInt(roomObj.getGameSettings().timeSec, 10);
-        memberVote.timer = new Timer(minutes, seconds);
+        roomObj.getMemberVote().timer = new Timer(minutes, seconds);
       }
-      roomObj.setMemberVote(memberVote);
     }
     io.in(roomObj.getRoomID()).emit('updatedRoom', roomObj);
     return callback(JSON.stringify({

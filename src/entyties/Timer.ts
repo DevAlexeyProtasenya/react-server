@@ -2,58 +2,52 @@ import { Server } from "socket.io";
 import { GameSettings, Room } from "./Room";
 
 export class Timer {
-  private minutes: number;
-  private seconds: number;
+  private min: number;
+  private sec: number;
   private start: boolean;
 
   constructor($minutes: number, $seconds: number) {
-    this.minutes = $minutes;
-    this.seconds = $seconds;
+    this.min = $minutes;
+    this.sec = $seconds;
+    this.start = false;
   }
 
   public getMinutes(): number {
-    return this.minutes;
+    return this.min;
   }
 
   public setMinutes(minute: number): void {
-    this.minutes = minute;
+    this.min = minute;
   }
 
   public getSeconds(): number {
-    return this.seconds;
+    return this.sec;
   }
 
   public setSeconds(seconds: number): void {
-    this.seconds = seconds;
+    this.sec = seconds;
   }
 
   public startTimer(io: Server, roomObj: Room): void {
     const MAX_SECONDS = 59;
     const {timeMin, timeSec} = roomObj.getGameSettings();
     this.start = true;
-    let interval = setTimeout(() => {
-      if(!this.start){
-        clearTimeout(interval);
-        this.minutes = parseInt(timeMin, 10);
-        this.seconds = parseInt(timeSec, 10);
+    const interval = setInterval(() => {
+      console.log(this);
+      if ((this.min === 0 && this.sec === 0) || !this.start) {
+        console.log(interval);
+        clearInterval(interval);
+        this.min = parseInt(timeMin, 10);
+        this.sec = parseInt(timeSec, 10);
         roomObj.makeStat();
         io.in(roomObj.getRoomID()).emit('getVoteResults', roomObj);
+      } else if (this.sec === 0) {
+        this.setSeconds(MAX_SECONDS);
+        this.setMinutes(this.min - 1);
+        console.log(this.getTime());
       } else {
-        interval = setInterval(() => {
-          if ((this.minutes === 0 && this.seconds === 0) || !this.start) {
-            clearInterval(interval);
-            this.minutes = parseInt(timeMin, 10);
-            this.seconds = parseInt(timeSec, 10);
-            roomObj.makeStat();
-            io.in(roomObj.getRoomID()).emit('getVoteResults', roomObj);
-          } else if (this.seconds === 0) {
-            this.setSeconds(MAX_SECONDS);
-            this.setMinutes(this.minutes - 1);
-          } else {
-            this.setSeconds(this.seconds - 1);
-          }
-          console.log(this.getTime());
-        }, 1000)
+        this.setSeconds(this.sec - 1);
+        console.log(this.getTime());
       }
     }, 1000)
   }
@@ -63,6 +57,6 @@ export class Timer {
   }
 
   public getTime(): string {
-    return `${this.minutes}:${this.seconds}`;
+    return `${this.min}:${this.sec}`;
   }
 }
