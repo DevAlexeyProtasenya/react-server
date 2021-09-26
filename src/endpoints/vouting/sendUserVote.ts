@@ -26,19 +26,16 @@ const sendUserVote = (socket: Socket, io: Server) => {
         message: errorRoom,
       }));
     }
-    console.log(roomObj, value);
-    const {isAutoCardFlipping, isTimer, timeMin, timeSec} = roomObj.getGameSettings();
+    const {isAutoCardFlipping, isTimer} = roomObj.getGameSettings();
     if(isAutoCardFlipping) {
       const members = roomObj.getPlayers();
       if(members.length === roomObj.getMemberVote().memberVoteResult.length){
         if(isTimer){
-          console.log('1');
           roomObj.getMemberVote().timer.stopTimer();
-          roomObj.getMemberVote().timer.setMinutes(parseInt(timeMin, 10));
-          roomObj.getMemberVote().timer.setSeconds(parseInt(timeSec, 10));
+        } else {
+          roomObj.makeStat();
+          io.in(user.getRoom()).emit('getVoteResults', roomObj);
         }
-        roomObj.makeStat();
-        io.in(user.getRoom()).emit('getVoteResults', roomObj);
       }
     }
     callback(JSON.stringify({

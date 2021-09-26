@@ -15,7 +15,7 @@ const updateRoom = (socket: Socket, io: Server) => {
     }
     if(roomObj.getState() === GameState.PLAYING && !roomObj.getMemberVote()){
       const memberVote = {
-        currentIssue: 0,
+        currentIssue: -1,
         status: MemberVoteStatus.BEFORE_START,
         memberVoteResult: [],
       } as MemberVote;

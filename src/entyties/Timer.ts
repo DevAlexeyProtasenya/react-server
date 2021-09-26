@@ -1,3 +1,6 @@
+import { Server } from "socket.io";
+import { GameSettings, Room } from "./Room";
+
 export class Timer {
   private minutes: number;
   private seconds: number;
@@ -24,16 +27,25 @@ export class Timer {
     this.seconds = seconds;
   }
 
-  public startTimer(): void {
+  public startTimer(io: Server, roomObj: Room): void {
     const MAX_SECONDS = 59;
+    const {timeMin, timeSec} = roomObj.getGameSettings();
     this.start = true;
     let interval = setTimeout(() => {
       if(!this.start){
         clearTimeout(interval);
+        this.minutes = parseInt(timeMin, 10);
+        this.seconds = parseInt(timeSec, 10);
+        roomObj.makeStat();
+        io.in(roomObj.getRoomID()).emit('getVoteResults', roomObj);
       } else {
         interval = setInterval(() => {
           if ((this.minutes === 0 && this.seconds === 0) || !this.start) {
             clearInterval(interval);
+            this.minutes = parseInt(timeMin, 10);
+            this.seconds = parseInt(timeSec, 10);
+            roomObj.makeStat();
+            io.in(roomObj.getRoomID()).emit('getVoteResults', roomObj);
           } else if (this.seconds === 0) {
             this.setSeconds(MAX_SECONDS);
             this.setMinutes(this.minutes - 1);
