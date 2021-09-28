@@ -18,6 +18,7 @@ import sendUserVote from './endpoints/vouting/sendUserVote';
 import saveStat from './endpoints/vouting/saveStat';
 import startRound from './endpoints/vouting/startRound';
 import updateSettings from './endpoints/updateRoom/updateSettings';
+import completeUser from './endpoints/authorization/completeUser';
 
 const app = express();
 const httpServer = createServer(app);
@@ -43,6 +44,7 @@ io.on('connection', (socket: Socket) => {
   saveStat(socket, io);
   startRound(socket, io);
   updateSettings(socket, io);
+  completeUser(socket, io);
 })
 
 app.get('/', (req, res) => {

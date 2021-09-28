@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { getRoom } from "../../rooms";
-import { addUser, deleteUser, getUsers } from "../../users";
+import { addUser, getUsers } from "../../users";
 
 const login = (socket: Socket, io: Server) => {
   socket.on('login', ({ name, lastName, jobPosition, avatar, role, room }, callback) => {
@@ -13,12 +13,11 @@ const login = (socket: Socket, io: Server) => {
       }));
     }
     const {isAutoNewPlayer} = roomObj.getGameSettings();
-    const {user} = addUser(name, role, room, !isAutoNewPlayer, lastName, avatar, jobPosition);
+    const {user} = addUser(name, role, room, !isAutoNewPlayer, lastName, avatar, jobPosition, socket);
     if(isAutoNewPlayer){
       roomObj.getMembers().push(user);
       socket.join(user.getRoom());
       io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));
-      console.log(user);
       callback(JSON.stringify({
         roomObj,
         memberVote: roomObj.getMemberVote(),
@@ -28,9 +27,6 @@ const login = (socket: Socket, io: Server) => {
     } else {
       io.in(room).emit('confirmUser', user);
       callback(JSON.stringify({
-        roomObj,
-        memberVote: roomObj.getMemberVote(),
-        userID: user.getId(),
         status: 202,
       }));
     }
