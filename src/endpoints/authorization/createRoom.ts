@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { MemberVoteStatus, MemberVote } from "../../entyties/MemberVote";
 import { addRoom } from "../../rooms";
 import { addUser, getUsers } from "../../users";
 
@@ -13,6 +14,12 @@ const createRoom = (socket: Socket, io: Server) => {
     }));
   };
   roomObj.setMembers([user]);
+  const memberVote = {
+    currentIssue: -1,
+    status: MemberVoteStatus.BEFORE_START,
+    memberVoteResult: [],
+  } as MemberVote;
+  roomObj.setMemberVote(memberVote);
   socket.join(user.getRoom())
   socket.in(user.getRoom()).emit('notification', { title: 'Someone\'s here', description: `${user.getName()} just entered the room` })
   io.in(user.getRoom()).emit('users', getUsers(user.getRoom()));

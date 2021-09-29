@@ -13,13 +13,7 @@ const updateRoom = (socket: Socket, io: Server) => {
         message: 'Room not found!',
       }));
     }
-    if(roomObj.getState() === GameState.PLAYING && !roomObj.getMemberVote()){
-      const memberVote = {
-        currentIssue: -1,
-        status: MemberVoteStatus.BEFORE_START,
-        memberVoteResult: [],
-      } as MemberVote;
-      roomObj.setMemberVote(memberVote);
+    if(roomObj.getState() === GameState.PLAYING && !roomObj.getMemberVote().timer){
       if(roomObj.getGameSettings().isTimer){
         const minutes = parseInt(roomObj.getGameSettings().timeMin, 10);
         const seconds = parseInt(roomObj.getGameSettings().timeSec, 10);

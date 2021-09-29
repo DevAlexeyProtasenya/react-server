@@ -33,9 +33,7 @@ export class Timer {
     const {timeMin, timeSec} = roomObj.getGameSettings();
     this.start = true;
     const interval = setInterval(() => {
-      console.log(this);
       if ((this.min === 0 && this.sec === 0) || !this.start) {
-        console.log(interval);
         clearInterval(interval);
         this.min = parseInt(timeMin, 10);
         this.sec = parseInt(timeSec, 10);
@@ -44,10 +42,8 @@ export class Timer {
       } else if (this.sec === 0) {
         this.setSeconds(MAX_SECONDS);
         this.setMinutes(this.min - 1);
-        console.log(this.getTime());
       } else {
         this.setSeconds(this.sec - 1);
-        console.log(this.getTime());
       }
     }, 1000)
   }
