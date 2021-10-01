@@ -4,7 +4,10 @@ import { getUser } from "../users";
 const sendMessage = (socket: Socket, io: Server) => {
   socket.on('sendMessage', ({message, userID}) => {
     const { user } = getUser(userID)
-    io.in(user.getRoom()).emit('message', { user: user.getName(), text: message });
+    if(user) {
+      console.log('hi');
+      io.in(user.getRoom()).emit('message', { user, message });
+    }
   })
 }
 
