@@ -1,4 +1,3 @@
-
 import { Server, Socket } from "socket.io";
 import { deleteUser, getUsers } from "../../users";
 

@@ -20,6 +20,8 @@ import startRound from './endpoints/vouting/startRound';
 import updateSettings from './endpoints/updateRoom/updateSettings';
 import completeUser from './endpoints/authorization/completeUser';
 import updateIssues from './endpoints/updateRoom/updateIssues';
+import startKickVoting from './endpoints/kickUser/startKickVoting';
+import sendKickVote from './endpoints/kickUser/sendKickVote';
 
 const app = express();
 const httpServer = createServer(app);
@@ -47,6 +49,8 @@ io.on('connection', (socket: Socket) => {
   updateSettings(socket, io);
   completeUser(socket, io);
   updateIssues(socket, io);
+  startKickVoting(socket, io);
+  sendKickVote(socket, io);
 })
 
 app.get('/', (req, res) => {
