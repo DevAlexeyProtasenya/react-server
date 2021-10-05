@@ -45,6 +45,7 @@ export class KickVoting {
     this.id = $id;
     this.maniac = $maniac;
     this.victim = $victim;
+    this.votes = [];
   }
 
   public getVoteResult() {

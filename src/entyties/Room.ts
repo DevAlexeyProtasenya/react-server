@@ -120,6 +120,13 @@ export class Room {
     return players;
   }
 
+  public removeUserFromRoom(userId: string): void {
+    const index = this.members.findIndex(user => userId === user.getId());
+    if(index !== -1) {
+      this.members.splice(index, 1);
+    }
+  } 
+
   public getDealer(): User {
     return this.getMembers().find(member => member.getRole1() === Role.dealer);
   }
